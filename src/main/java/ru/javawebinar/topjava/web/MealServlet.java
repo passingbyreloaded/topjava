@@ -49,6 +49,7 @@ public class MealServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
 
         LocalDateTime dateTime = LocalDateTime.parse(request.getParameter("dateTime"),formatter);
         Meal meal = new Meal(dateTime,request.getParameter("description"),Integer.parseInt(request.getParameter("calories")));

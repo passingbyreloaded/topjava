@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 <html>
 <head>
     <link type="text/css"
@@ -20,7 +21,8 @@
     Meal ID : <input type="text" readonly="readonly" name="mealId"
                      value="<c:out value="${meal.mealId}" />"/> <br/>
     Date and Time : <input type="text" name="dateTime"
-                           value="<fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${meal.dateTime}" />"/> <br/>
+                           <%--value="<fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${meal.dateTime}" />"/> <br/>--%>
+                           value="<javatime:format pattern="dd.MM.yyyy HH:mm" value="${meal.dateTime}" />"/> <br/>
     Description : <input type="text" name="description"
                          value="<c:out value="${meal.description}" />"/> <br/>
     Calories : <input type="text" name="calories"
