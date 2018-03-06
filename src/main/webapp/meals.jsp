@@ -10,23 +10,30 @@
 <table border="1">
     <thead>
     <tr>
-    <th>Description</th>
-    <th>Date and Time</th>
-    <th>Calories</th>
+        <th>ID</th>
+        <th>Date and Time</th>
+        <th>Description</th>
+        <th>Calories</th>
+        <th colspan=2>Action</th>
     </tr>
     </thead>
     <tbody>
     <c:forEach items="${meals}" var="meal">
         <tr style="${meal.exceed?'color:red':'color:green'}">
-            <td>${meal.description}</td>
+            <td>${meal.mealId}</td>
             <td>
-                <javatime:parseLocalDateTime value="${meal.dateTime}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime" />
-                <javatime:format pattern="dd.MM.yyyy HH:mm" value="${ parsedDateTime }"  />
+                <javatime:parseLocalDateTime value="${meal.dateTime}" pattern="yyyy-MM-dd'T'HH:mm"
+                                             var="parsedDateTime"/>
+                <javatime:format pattern="dd.MM.yyyy HH:mm" value="${parsedDateTime}"/>
             </td>
+            <td>${meal.description}</td>
             <td>${meal.calories}</td>
+            <td><a href="meals?action=edit&mealId=<c:out value="${meal.mealId}"/>">Update</a></td>
+            <td><a href="meals?action=delete&mealId=<c:out value="${meal.mealId}"/>">Delete</a></td>
         </tr>
     </c:forEach>
     </tbody>
 </table>
+<p><a href="meals?action=insert">Add Meal</a></p>
 </body>
 </html>

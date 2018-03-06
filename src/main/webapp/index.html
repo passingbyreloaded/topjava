@@ -1,4 +1,5 @@
-<html>
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<html xmlns:jsp="http://java.sun.com/JSP/Page">
 <head>
     <meta charset="UTF-8">
     <title>Java Enterprise (Topjava)</title>
@@ -8,7 +9,8 @@
 <hr>
 <ul>
     <li><a href="users">Users</a></li>
-    <li><a href="meals">Meals</a></li>
+    <li><a href="/meals?action=listMeal">Meals</a></li>
+    <!--<jsp:forward page="meals?action=listMeal" />-->
 </ul>
 </body>
 </html>
