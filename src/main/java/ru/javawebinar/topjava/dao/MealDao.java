@@ -1,19 +1,17 @@
 package ru.javawebinar.topjava.dao;
 
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.model.MealWithExceed;
-
 import java.util.List;
 
 public interface MealDao {
 
-    public void addMeal(Meal meal);
+    Meal add(Meal meal);
 
-    public void deleteMeal(int mealId);
+    void delete(int mealId);
 
-    public void updateMeal(Meal meal);
+    void update(Meal meal);
 
-    public List<MealWithExceed> getAllMeals();
+    List<Meal> getAll();
 
-    public Meal getMealById(int mealId);
+    Meal getById(int mealId);
 }

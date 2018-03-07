@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import ru.javawebinar.topjava.dao.MealDao;
 import ru.javawebinar.topjava.dao.MealDaoMapImpl;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.util.MealsUtil;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,14 +12,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+
 
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class MealServlet extends HttpServlet {
     private static final Logger log = getLogger(MealServlet.class);
-    private MealDao mealDao = new MealDaoMapImpl();
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+    private MealDao mealDao;
+    private DateTimeFormatter formatter;
+
+    @Override
+    public void init() throws ServletException {
+        mealDao = new MealDaoMapImpl();
+        formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -26,19 +35,22 @@ public class MealServlet extends HttpServlet {
         String forward="";
         String action = request.getParameter("action");
 
-        if (action.equalsIgnoreCase("delete")){
-            int mealId = Integer.parseInt(request.getParameter("mealId"));
-            mealDao.deleteMeal(mealId);
+        if (action==null){
             forward = "/meals.jsp";
-            request.setAttribute("meals", mealDao.getAllMeals());
+            request.setAttribute("meals", MealsUtil.getFilteredWithExceeded(mealDao.getAll(), LocalTime.MIN, LocalTime.MAX, 2000));
+        }else if (action.equalsIgnoreCase("delete")){
+            int mealId = Integer.parseInt(request.getParameter("mealId"));
+            mealDao.delete(mealId);
+            forward = "/meals.jsp";
+            request.setAttribute("meals", MealsUtil.getFilteredWithExceeded(mealDao.getAll(), LocalTime.MIN, LocalTime.MAX, 2000));
         } else if (action.equalsIgnoreCase("edit")){
             forward = "/meal.jsp";
             int mealId = Integer.parseInt(request.getParameter("mealId"));
-            Meal meal = mealDao.getMealById(mealId);
+            Meal meal = mealDao.getById(mealId);
             request.setAttribute("meal", meal);
         } else if (action.equalsIgnoreCase("listMeal")){
             forward = "/meals.jsp";
-            request.setAttribute("meals", mealDao.getAllMeals());
+            request.setAttribute("meals", MealsUtil.getFilteredWithExceeded(mealDao.getAll(), LocalTime.MIN, LocalTime.MAX, 2000));
         } else {
             forward = "/meal.jsp";
         }
@@ -56,15 +68,15 @@ public class MealServlet extends HttpServlet {
         String mealId = request.getParameter("mealId");
         if(mealId == null || mealId.isEmpty())
         {
-            mealDao.addMeal(meal);
+            mealDao.add(meal);
         }
         else
         {
             meal.setMealId(Integer.parseInt(mealId));
-            mealDao.updateMeal(meal);
+            mealDao.update(meal);
         }
         RequestDispatcher view = request.getRequestDispatcher("/meals.jsp");
-        request.setAttribute("meals", mealDao.getAllMeals());
+        request.setAttribute("meals", MealsUtil.getFilteredWithExceeded(mealDao.getAll(), LocalTime.MIN, LocalTime.MAX, 2000));
         view.forward(request, response);
     }
 }

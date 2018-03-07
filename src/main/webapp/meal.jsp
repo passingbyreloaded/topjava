@@ -18,10 +18,9 @@
 </script>
 
 <form method="POST" action='meals' name="frmAddMeal">
-    Meal ID : <input type="text" readonly="readonly" name="mealId"
-                     value="<c:out value="${meal.mealId}" />"/> <br/>
+    <input type="hidden" name="mealId"
+           value="<c:out value="${meal.mealId}" />"/> <br/>
     Date and Time : <input type="text" name="dateTime"
-                           <%--value="<fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${meal.dateTime}" />"/> <br/>--%>
                            value="<javatime:format pattern="dd.MM.yyyy HH:mm" value="${meal.dateTime}" />"/> <br/>
     Description : <input type="text" name="description"
                          value="<c:out value="${meal.description}" />"/> <br/>
