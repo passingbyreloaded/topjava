@@ -11,10 +11,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class MealDaoMapImpl implements MealDao {
 
     private static Map<Integer,Meal> mealMap = new ConcurrentHashMap<>();
-    private static AtomicInteger count;
-    static {
-        MealsUtil.getHardcodedMeals().forEach(meal -> mealMap.put(meal.getMealId(),meal));
-        count = new AtomicInteger(mealMap.size());
+    private static AtomicInteger count = new AtomicInteger(0);
+     {
+        MealsUtil.getHardcodedMeals().forEach(this::add);
     }
 
     @Override

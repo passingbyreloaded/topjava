@@ -41,8 +41,8 @@ public class MealServlet extends HttpServlet {
         }else if (action.equalsIgnoreCase("delete")){
             int mealId = Integer.parseInt(request.getParameter("mealId"));
             mealDao.delete(mealId);
-            forward = "/meals.jsp";
-            request.setAttribute("meals", MealsUtil.getFilteredWithExceeded(mealDao.getAll(), LocalTime.MIN, LocalTime.MAX, 2000));
+            response.sendRedirect("meals");
+            return;
         } else if (action.equalsIgnoreCase("edit")){
             forward = "/meal.jsp";
             int mealId = Integer.parseInt(request.getParameter("mealId"));
